@@ -13,12 +13,55 @@ const secondsInput = document.getElementById('seconds');
 const currentLabel = document.getElementById('current-label');
 const countdownEl = document.getElementById('countdown');
 const progressEl = document.getElementById('progress');
+const soundEnabledInput = document.getElementById('sound-enabled');
 
 const intervals = [];
 let currentIndex = 0;
 let remainingSeconds = 0;
 let timerId = null;
 let isPaused = false;
+let audioContext = null;
+
+function getAudioContext() {
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  return audioContext;
+}
+
+function prepareAudio() {
+  if (!soundEnabledInput.checked) return;
+
+  const context = getAudioContext();
+  if (context.state === 'suspended') {
+    context.resume();
+  }
+}
+
+function playIntervalTone() {
+  if (!soundEnabledInput.checked) return;
+
+  const context = getAudioContext();
+  if (context.state === 'suspended') {
+    context.resume();
+  }
+
+  const oscillator = context.createOscillator();
+  const gain = context.createGain();
+  const now = context.currentTime;
+
+  oscillator.type = 'sine';
+  oscillator.frequency.setValueAtTime(880, now);
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(0.35, now + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+
+  oscillator.connect(gain);
+  gain.connect(context.destination);
+  oscillator.start(now);
+  oscillator.stop(now + 0.4);
+}
 
 function formatTime(totalSeconds) {
   const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
@@ -81,6 +124,7 @@ function runTimerTick() {
     }
 
     remainingSeconds = intervals[currentIndex].seconds;
+    playIntervalTone();
     updateStatus();
   }, 1000);
 }
@@ -128,6 +172,7 @@ startBtn.addEventListener('click', () => {
 
   currentIndex = 0;
   remainingSeconds = intervals[0].seconds;
+  prepareAudio();
   updateStatus();
   runTimerTick();
 

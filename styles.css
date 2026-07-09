@@ -55,6 +55,11 @@ input {
   color: var(--text);
 }
 
+input[type="checkbox"] {
+  width: auto;
+  accent-color: var(--accent);
+}
+
 button {
   border: none;
   border-radius: 10px;
@@ -72,6 +77,18 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 #start:hover:enabled { background: #4ade80; }
 
 #resume { background: var(--accent-2); }
+
+.sound-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.sound-option label {
+  margin: 0;
+  color: var(--muted);
+}
 
 .interval-list {
   list-style: none;
