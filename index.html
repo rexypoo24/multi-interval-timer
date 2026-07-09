@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Walk/Jog Multi-Interval Timer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <h1>Walk/Jog Multi-Interval Timer</h1>
+    <p>Create a custom sequence of intervals with different durations for walking and jogging.</p>
+
+    <section class="panel">
+      <h2>Add Interval</h2>
+      <div class="row">
+        <label for="label">Label</label>
+        <input id="label" type="text" placeholder="Walk, Jog, Sprint..." value="Walk" />
+      </div>
+      <div class="row two-col">
+        <div>
+          <label for="minutes">Minutes</label>
+          <input id="minutes" type="number" min="0" value="0" />
+        </div>
+        <div>
+          <label for="seconds">Seconds</label>
+          <input id="seconds" type="number" min="0" max="59" value="30" />
+        </div>
+      </div>
+      <div class="row">
+        <button id="add-interval">Add Interval</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Sequence</h2>
+      <ul id="interval-list" class="interval-list"></ul>
+      <div class="sound-option">
+        <input id="sound-enabled" type="checkbox" checked />
+        <label for="sound-enabled">Play a sound when the next interval starts</label>
+      </div>
+      <div class="controls">
+        <button id="start">Start</button>
+        <button id="pause" disabled>Pause</button>
+        <button id="resume" disabled>Resume</button>
+        <button id="reset" disabled>Reset</button>
+        <button id="clear-all">Clear All</button>
+      </div>
+    </section>
+
+    <section class="panel status">
+      <h2>Current Interval</h2>
+      <p id="current-label">Not started</p>
+      <p id="countdown" class="countdown">00:00</p>
+      <p id="progress">Add intervals and press Start.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
